@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "584681638169",
+    "project_id": "ejerc1firebasepmdmtema2",
+    "storage_bucket": "ejerc1firebasepmdmtema2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584681638169:android:412ae1df0c51483252dd88",
+        "android_client_info": {
+          "package_name": "montacer.elfazazi.ejerc5clasepmdmtema1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzMDDDUYAeybh6qc7DzG1cta28UvBQfa8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

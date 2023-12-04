@@ -25,7 +25,7 @@ import montacer.elfazazi.ejerc5clasepmdmtema1.R;
 import montacer.elfazazi.ejerc5clasepmdmtema1.configuracion.Constantes;
 import montacer.elfazazi.ejerc5clasepmdmtema1.modelos.Product;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductVH> {
+public class   ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductVH> {
     private List<Product> objects; //elementos a mostrar
     private int resource; //vista a mostrar
     private Context context; //donde se mostrar
@@ -176,7 +176,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return builder.create();
     }
 
-    public class ProductVH extends RecyclerView.ViewHolder{ //localizo los elementos del contexto
+    public class ProductVH extends RecyclerView.ViewHolder{ //localizo los elementos del contextoo
         TextView lbName, lbQuantity;
         ImageButton btnDelete;
         public ProductVH(@NonNull View itemView) {

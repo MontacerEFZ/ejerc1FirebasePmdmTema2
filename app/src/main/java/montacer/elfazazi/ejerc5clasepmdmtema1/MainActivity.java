@@ -20,6 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -41,12 +46,29 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private Gson gson;
 
+
+
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+    private DatabaseReference myProducto;
+    private ArrayList<Product> listaProductos;
+    private DatabaseReference myListaProductos;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        listaProductos = new ArrayList<>();
+
+        database = FirebaseDatabase.getInstance("https://ejerc1firebasepmdmtema2-default-rtdb.europe-west1.firebasedatabase.app/");
+
+        myRef = database.getReference("producto");
+        myProducto = database.getReference("myProducto");
+        myListaProductos = database.getReference("myListaProductos");
 
         sp = getSharedPreferences(Constantes.DATOS, MODE_PRIVATE);
         gson = new Gson();
@@ -71,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+
     private void leerInformacion() {
         if(sp.contains(Constantes.LISTAPRODUCTOS)){
             String listaJson = sp.getString(Constantes.LISTAPRODUCTOS, "[]");
@@ -93,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         EditText txtQuantity = productViewModel.findViewById(R.id.txtQuantityProductViewModel);
         EditText txtPrice = productViewModel.findViewById(R.id.txtPriceProductViewModel);
         TextView lbTotal = productViewModel.findViewById(R.id.lbTotalProductViewModel);
+        TextView lbFirebase = findViewById(R.id.lbFirebaseViewHolder);
 
         builder.setView(productViewModel);
 
@@ -141,13 +166,47 @@ public class MainActivity extends AppCompatActivity {
                     adapter.notifyItemInserted(0);
                     guardarInformacion();
                    // Toast.makeText(MainActivity.this, product.toString(), Toast.LENGTH_SHORT).show();
+
+
+
+
+                    String contenidoMyRef = txtName.getText().toString()
+                            +", "
+                            +Integer.parseInt(txtPrice.getText().toString())*Integer.parseInt(txtQuantity.getText().toString());
+
+                    Product p = new Product(txtName.getText().toString(),
+                            Integer.parseInt(txtPrice.getText().toString()),
+                            Integer.parseInt(txtQuantity.getText().toString()));
+
+                    myRef.setValue(contenidoMyRef);
+                    myProducto.setValue(p);
+
+                    listaProductos.add(p);
+                    myListaProductos.setValue(listaProductos);
+
+
                 }
+
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String texto = snapshot.getValue(String.class);
+                        lbFirebase.setText(texto);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(MainActivity.this, error.toException().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
 
         return builder.create();
     }
+
+
 
     private void guardarInformacion() {
         SharedPreferences.Editor editor = sp.edit();
