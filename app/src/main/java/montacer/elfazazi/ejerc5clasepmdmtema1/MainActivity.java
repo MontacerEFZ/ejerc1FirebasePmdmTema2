@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
 
                     myRef.setValue(contenidoMyRef);
                     myProducto.setValue(p);
-
+//r
                     listaProductos.add(p);
                     myListaProductos.setValue(listaProductos);
 
